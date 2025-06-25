@@ -1,10 +1,10 @@
-import  useCalendar  from '../hooks/useCalendar'
+import useCalendar from '../hooks/useCalendar';
 import React from 'react';
-import CalendarHeader from './CalendarHeader'
-import CalendarGrid from './CalendarGrid'
-import EventForm from './EventForm';
+import CalendarHeader from './CalendarHeader';
+import CalendarGrid from './CalendarGrid';
+import EventForm from './EventForm'; // Import the new EventForm component
 
-export default function Calendar (){
+export default function Calendar() {
   const {
     currentDate,
     calendarDates,
@@ -12,12 +12,12 @@ export default function Calendar (){
     goToNextMonth,
     goToToday,
     getEventsForDate,
-	selectedDate, 
-	setSelectedDate
+    selectedDate, // Get selectedDate from hook
+    setSelectedDate // Get setSelectedDate from hook
   } = useCalendar();
   
   return (
-        <div className="max-w-full lg:max-w-7xl mx-auto p-4 md:p-6 lg:p-8 bg-white rounded-xl shadow-2xl border border-blue-100"> {/* Updated: Main calendar container styling */}
+    <div className="max-w-full lg:max-w-7xl mx-auto p-4 md:p-6 lg:p-8 bg-white bg-opacity-600 backdrop-blur-sm rounded-xl shadow-2xl border border-blue-100"> {/* Updated: bg-opacity for more transparency, backdrop-blur for nice effect */}
       <div className="mb-6"> {/* Header section */}
         <CalendarHeader
           currentDate={currentDate}
@@ -47,4 +47,4 @@ export default function Calendar (){
       </div>
     </div>
   );
-};
+}

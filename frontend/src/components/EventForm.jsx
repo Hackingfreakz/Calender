@@ -7,6 +7,17 @@ export default function EventForm({ selectedDate, eventsForSelectedDate }) {
   const [startTime, setStartTime] = useState('09:00');
   const [endTime, setEndTime] = useState('10:00');
 
+  const colorClasses = {
+    blue: { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-200' },
+    green: { bg: 'bg-green-100', text: 'text-green-800', border: 'border-green-200' },
+    purple: { bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-purple-200' },
+    orange: { bg: 'bg-orange-100', text: 'text-orange-800', border: 'border-orange-200' },
+    red: { bg: 'bg-red-100', text: 'text-red-800', border: 'border-red-200' },
+    indigo: { bg: 'bg-indigo-100', text: 'text-indigo-800', border: 'border-indigo-200' },
+    teal: { bg: 'bg-teal-100', text: 'text-teal-800', border: 'border-teal-200' },
+    pink: { bg: 'bg-pink-100', text: 'text-pink-800', border: 'border-pink-200' }
+  };
+
   const handleAddEvent = (e) => {
     e.preventDefault();
     // This is a dummy function as we don't have a backend
@@ -26,7 +37,7 @@ export default function EventForm({ selectedDate, eventsForSelectedDate }) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
+    <div className="bg-white bg-opacity-60 backdrop-blur-sm rounded-lg shadow-lg p-6 border border-gray-200"> {/* Updated: bg-opacity and backdrop-blur */}
       <h2 className="text-xl font-bold text-gray-800 mb-4">
         Events for {selectedDate.format('MMM D, YYYY')}
       </h2>
@@ -36,14 +47,15 @@ export default function EventForm({ selectedDate, eventsForSelectedDate }) {
           {eventsForSelectedDate.map(event => (
             <div
               key={event.id}
-              className={`
-                flex flex-col p-3 rounded-lg border
-                ${event.isOverlapping ? 'bg-red-50 border-red-200' : 'bg-gray-50 border-gray-100'}
+              className={`flex flex-col p-3 rounded-lg border relative
+                ${colorClasses[event.color]?.bg || colorClasses.blue.bg}
+                ${colorClasses[event.color]?.border || colorClasses.blue.border}
+                ${event.isOverlapping ? 'border-dashed border-red-400' : ''}
               `}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className={`text-sm font-semibold ${event.isOverlapping ? 'text-red-700' : 'text-gray-800'}`}>
-                  {event.title} {event.isOverlapping && <span className="ml-1 text-red-500">⚠️</span>}
+                <span className={`text-sm font-semibold ${colorClasses[event.color]?.text || colorClasses.blue.text}`}>
+                  {event.title}
                 </span>
                 <span className="text-xs text-gray-500">
                   {event.isAllDay ? 'All Day' : `${event.startTime} - ${event.endTime}`}
@@ -52,6 +64,11 @@ export default function EventForm({ selectedDate, eventsForSelectedDate }) {
               <p className="text-xs text-gray-600">
                 {event.description || 'No description provided.'}
               </p>
+              {event.isOverlapping && (
+                <div className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs font-bold ring-1 ring-white">
+                  !
+                </div>
+              )}
             </div>
           ))}
         </div>
